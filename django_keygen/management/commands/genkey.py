@@ -20,20 +20,18 @@ class Command(BaseCommand, KeyGen):
         """
 
         parser.add_argument(
-            'length', type=int, default=50,
+            'length', type=int, nargs='?', default=50,
             help='Length of the key to generate')
 
         parser.add_argument(
-            'chars', type=str, default=self.default_chars,
+            'chars', type=str, nargs='?', default=self.default_chars,
             help='Characters to include in the secret key')
 
         parser.add_argument(
-            'force', type=bool, default=False,
+            'force', type=bool, nargs='?', default=False,
             help='Issue warnings instead of exceptions for unsafe security options')
 
     def handle(self, *args, **options) -> str:
         """Handle a command line call for the parent class"""
 
-        key = self.gen_secret_key(options['length'], options['chars'], options['force'])
-        self.stdout.write(key)
-        return key
+        return self.gen_secret_key(options['length'], options['chars'], options['force'])
