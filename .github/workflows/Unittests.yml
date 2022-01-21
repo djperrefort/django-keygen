@@ -1,0 +1,29 @@
+name: Run Tests
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  python_tests:
+    runs-on: [self-hosted]
+    strategy:
+      matrix:
+        python-version: [ 3.5, 3.6, 3.7, 3.8, 3.9 ]
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v2
+
+      - name: Install package dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Install test dependencies
+        run: |
+          pip install coverage
+
+      - name: Run tests with coverage
+        run: |
+          coverage run -m unittest
+          coverage report
