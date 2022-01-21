@@ -1,20 +1,11 @@
 import string
 from unittest import TestCase
 
-from keygen_manage import KeyGen
+from keygen_manage import KeyGen, SecurityWarning
 
 
 class KeyGeneration(TestCase):
     """Tests for the generation of secret keys"""
-
-    def test_error_on_non_positive_length(self) -> None:
-        """Test for a ``ValueError`` on a non-positive key length"""
-
-        with self.assertRaises(ValueError):
-            KeyGen().gen_secret_key(length=0)
-
-        with self.assertRaises(ValueError):
-            KeyGen().gen_secret_key(length=-1)
 
     def test_returned_length(self) -> None:
         """Tet the returned key length matches the ``length`` argument"""
@@ -31,6 +22,25 @@ class KeyGeneration(TestCase):
             KeyGen().gen_secret_key(),
             KeyGen().gen_secret_key()
         )
+
+
+class SecurityErrorsAndWarnings(TestCase):
+    def test_error_on_non_positive_length(self) -> None:
+        """Test for a ``ValueError`` on a non-positive key length"""
+
+        with self.assertRaises(ValueError):
+            KeyGen().gen_secret_key(length=0)
+
+        with self.assertRaises(ValueError):
+            KeyGen().gen_secret_key(length=-1)
+
+    def test_warn_on_short_length(self):
+        with self.assertWarns(SecurityWarning):
+            KeyGen().gen_secret_key(length=29)
+
+    def test_warn_on_small_char_set(self):
+        with self.assertWarns(SecurityWarning):
+            KeyGen().gen_secret_key(chars='abcd')
 
 
 class DefaultCharacterSet(TestCase):
