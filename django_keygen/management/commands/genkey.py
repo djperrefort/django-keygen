@@ -34,6 +34,4 @@ class Command(BaseCommand, KeyGen):
     def handle(self, *args, **options) -> str:
         """Handle a command line call for the parent class"""
 
-        key = self.gen_secret_key(options['length'], options['chars'], options['force'])
-        self.stdout.write(key)
-        return key
+        return self.gen_secret_key(options['length'], options['chars'], options['force'])
