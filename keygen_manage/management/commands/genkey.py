@@ -20,11 +20,11 @@ class Command(BaseCommand, KeyGen):
         """
 
         parser.add_argument(
-            'length', nargs='?', type=int, default=50,
+            'length', type=int, default=50,
             help='Length of the key to generate')
 
         parser.add_argument(
-            'chars', type=str, default=self.default_char_set,
+            'chars', type=str, default=self.default_chars,
             help='Characters to include in the secret key')
 
     def handle(self, *args, **options) -> str:

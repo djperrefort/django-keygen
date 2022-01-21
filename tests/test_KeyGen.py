@@ -58,14 +58,14 @@ class DefaultCharacterSet(TestCase):
     def test_contains_ascii_lower(self) -> None:
         """Test keys pull from lowercase letters"""
 
-        self.assertSubsetChars(string.ascii_lowercase, KeyGen().default_char_set)
+        self.assertSubsetChars(string.ascii_lowercase, KeyGen().default_chars)
 
     def test_contains_ascii_upper(self) -> None:
         """Test keys pull from uppercase letters"""
 
-        self.assertSubsetChars(string.ascii_uppercase, KeyGen().default_char_set)
+        self.assertSubsetChars(string.ascii_uppercase, KeyGen().default_chars)
 
     def test_contains_punctuation(self) -> None:
         """Test keys pull from punctuation"""
 
-        self.assertSubsetChars(string.punctuation, KeyGen().default_char_set)
+        self.assertSubsetChars(string.punctuation, KeyGen().default_chars)
