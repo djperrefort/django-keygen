@@ -12,7 +12,7 @@ class KeyGen:
     """Generates and prints a new secret key"""
 
     @property
-    def default_char_set(self):
+    def default_char_set(self) -> str:
         """Default character set used to generate secret keys"""
 
         return string.ascii_letters + string.digits + string.punctuation

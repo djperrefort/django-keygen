@@ -25,6 +25,8 @@ class KeyGeneration(TestCase):
 
 
 class SecurityErrorsAndWarnings(TestCase):
+    """Tests for security warnings and errors"""
+
     def test_error_on_non_positive_length(self) -> None:
         """Test for a ``ValueError`` on a non-positive key length"""
 
@@ -34,11 +36,11 @@ class SecurityErrorsAndWarnings(TestCase):
         with self.assertRaises(ValueError):
             KeyGen().gen_secret_key(length=-1)
 
-    def test_warn_on_short_length(self):
+    def test_warn_on_short_length(self) -> None:
         with self.assertWarns(SecurityWarning):
             KeyGen().gen_secret_key(length=29)
 
-    def test_warn_on_small_char_set(self):
+    def test_warn_on_small_char_set(self) -> None:
         with self.assertWarns(SecurityWarning):
             KeyGen().gen_secret_key(chars='abcd')
 
