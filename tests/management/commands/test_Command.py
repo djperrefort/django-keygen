@@ -22,8 +22,11 @@ class CliParsing(TestCase):
         test_parser = ArgumentParser()
         command.add_arguments(test_parser)
 
-        self.assertEqual(50, test_parser.get_default('length'))
-        self.assertEqual(command.default_chars, test_parser.get_default('chars'))
+        # Compare parser defaults against design specs
+        parsed_args = test_parser.parse_args([])
+        self.assertEqual(50, parsed_args.length)
+        self.assertEqual(command.default_chars, parsed_args.chars)
+        self.assertEqual(False, parsed_args.force)
 
     @mock.patch('sys.stdout')
     def test_handle_output_to_stdout(self, mock_stdout) -> None:
