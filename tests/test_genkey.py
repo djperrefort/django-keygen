@@ -3,7 +3,7 @@
 import string
 from unittest import TestCase
 
-from source.apps.keygen_manage.management.commands.genkey import Command
+from keygen_manage import Command
 
 
 class KeyGeneration(TestCase):
