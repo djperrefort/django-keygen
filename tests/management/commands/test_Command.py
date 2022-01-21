@@ -1,8 +1,8 @@
 from argparse import ArgumentParser
 from unittest import TestCase, mock
 
-from keygen_manage import KeyGen
-from keygen_manage.management.commands.genkey import Command
+from django_keygen import KeyGen
+from django_keygen.management.commands.genkey import Command
 
 
 class CliDocumentation(TestCase):
@@ -30,7 +30,7 @@ class CliParsing(TestCase):
         """Test the ``handle`` method outputs the generated key to stdout"""
 
         command = Command()
-        key = command.handle(length=50, chars=command.default_chars)
+        key = command.handle(length=50, chars=command.default_chars, force=True)
         mock_stdout.write.assert_has_calls([
             mock.call(key + '\n')
         ])

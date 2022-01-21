@@ -1,7 +1,7 @@
 import string
 from unittest import TestCase
 
-from keygen_manage import KeyGen, SecurityWarning
+from django_keygen import KeyGen, SecurityWarning, SecurityException
 
 
 class KeyGeneration(TestCase):
@@ -11,7 +11,7 @@ class KeyGeneration(TestCase):
         """Tet the returned key length matches the ``length`` argument"""
 
         for i in range(10, 25, 50):
-            self.assertEqual(i, len(KeyGen().gen_secret_key(i)))
+            self.assertEqual(i, len(KeyGen().gen_secret_key(i, force=True)))
 
     def test_sequential_not_equal(self) -> None:
         """Test sequential keys do not match"""
@@ -37,12 +37,18 @@ class SecurityErrorsAndWarnings(TestCase):
             KeyGen().gen_secret_key(length=-1)
 
     def test_warn_on_short_length(self) -> None:
-        with self.assertWarns(SecurityWarning):
+        with self.assertRaises(SecurityException):
             KeyGen().gen_secret_key(length=29)
 
-    def test_warn_on_small_char_set(self) -> None:
         with self.assertWarns(SecurityWarning):
+            KeyGen().gen_secret_key(length=29, force=True)
+
+    def test_warn_on_small_char_set(self) -> None:
+        with self.assertRaises(SecurityException):
             KeyGen().gen_secret_key(chars='abcd')
+
+        with self.assertWarns(SecurityWarning):
+            KeyGen().gen_secret_key(chars='abcd', force=True)
 
 
 class DefaultCharacterSet(TestCase):

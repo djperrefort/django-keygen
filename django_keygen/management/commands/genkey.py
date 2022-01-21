@@ -2,7 +2,7 @@ from argparse import ArgumentParser
 
 from django.core.management.base import BaseCommand
 
-from keygen_manage import KeyGen
+from django_keygen import KeyGen
 
 
 class Command(BaseCommand, KeyGen):
@@ -27,9 +27,13 @@ class Command(BaseCommand, KeyGen):
             'chars', type=str, default=self.default_chars,
             help='Characters to include in the secret key')
 
+        parser.add_argument(
+            'force', type=bool, default=False,
+            help='Issue warnings instead of exceptions for unsafe security options')
+
     def handle(self, *args, **options) -> str:
         """Handle a command line call for the parent class"""
 
-        key = self.gen_secret_key(options['length'], options['chars'])
+        key = self.gen_secret_key(options['length'], options['chars'], options['force'])
         self.stdout.write(key)
         return key
