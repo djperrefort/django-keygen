@@ -41,7 +41,7 @@ setup(name='django-keygen',
           'Programming Language :: Python :: 3.9',
       ],
       license='GPL v3',
-      python_requires='>=3.5',
+      python_requires='>=3.6',
       install_requires=load_requirements(),
       include_package_data=True
       )
