@@ -1,6 +1,7 @@
 name: PyPi Upload
 
 on:
+  workflow_dispatch:
   release:
     types: [created]
 
