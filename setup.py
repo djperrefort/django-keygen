@@ -8,6 +8,10 @@ def load_requirements():
     with open('requirements.txt') as f:
         return f.read().splitlines()
 
+def load_long_description():
+    with open('README.md') as f:
+        return f.read()
+
 
 def get_meta():
     init_path = Path(__file__).resolve().parent / 'django_keygen/__init__.py'
@@ -28,6 +32,8 @@ setup(name='django-keygen',
       version=version,
       author=author,
       packages=find_packages(),
+      long_description=load_long_description(),
+      long_description_content_type='text/markdown',
       keywords='Django Secret Key',
       description='A secure secret key generator for Django',
       classifiers=[
