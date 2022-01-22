@@ -3,8 +3,6 @@ from pathlib import Path
 
 from setuptools import find_packages, setup
 
-import django_keygen
-
 
 def load_requirements():
     with open('requirements.txt') as f:
@@ -32,7 +30,6 @@ setup(name='django-keygen',
       packages=find_packages(),
       keywords='Django Secret Key',
       description='A secure secret key generator for Django',
-      long_description=django_keygen.__doc__,
       long_description_content_type='text/rst',
       classifiers=[
           'Natural Language :: English',
