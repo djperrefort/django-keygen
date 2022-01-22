@@ -92,7 +92,7 @@ from django.utils.crypto import get_random_string
 from django_keygen.exceptions import SecurityWarning, SecurityException
 
 __version__ = '1.0.0'
-__author__ = 'FamilyTreeCollab'
+__author__ = 'Daniel Perrefort'
 
 
 class KeyGen:

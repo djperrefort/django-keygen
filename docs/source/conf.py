@@ -6,8 +6,8 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 # -- Project information -----------------------------------------------------
 
 project = 'django-keygen'
-copyright = '2022, FamilyTreeCollab'
-author = 'FamilyTreeCollab'
+copyright = '2022, Daniel Perrefort'
+author = 'Daniel Perrefort'
 
 # -- General configuration ---------------------------------------------------
 
