@@ -1,3 +1,6 @@
+import re
+from pathlib import Path
+
 from setuptools import find_packages, setup
 
 import django_keygen
@@ -8,9 +11,24 @@ def load_requirements():
         return f.read().splitlines()
 
 
+def get_meta():
+    init_path = Path(__file__).resolve().parent / 'django_keygen/__init__.py'
+    with init_path.open('r') as infile:
+        init_content = infile.read()
+
+    version_reg_exp = re.compile("__version__ = '(.*?)'")
+    version = version_reg_exp.findall(init_content)[0]
+
+    author_reg_exp = re.compile("__author__ = '(.*?)'")
+    author = author_reg_exp.findall(init_content)[0]
+
+    return version, author
+
+
+version, author = get_meta()
 setup(name='django-keygen',
-      version=django_keygen.__version__,
-      author=django_keygen.__author__,
+      version=version,
+      author=author,
       packages=find_packages(),
       keywords='Django Secret Key',
       description='A secure secret key generator for Django',
