@@ -34,9 +34,6 @@ setup(name='django-keygen',
       classifiers=[
           'Natural Language :: English',
           'Operating System :: OS Independent',
-          'Programming Language :: Python'
-          'Intended Audience :: Developers',
-          'Environment :: Web Environment',
           'Programming Language :: Python',
           'Programming Language :: Python :: 3',
           'Programming Language :: Python :: 3.5',
