@@ -2,7 +2,7 @@ import string
 from pathlib import Path
 from unittest import TestCase
 
-from django_keygen import KeyGen, SecurityWarning, SecurityException
+from django_keygen import KeyGen, SecurityWarning, SecurityException, DEFAULT_CHARS
 
 
 class KeyGeneration(TestCase):
@@ -12,7 +12,8 @@ class KeyGeneration(TestCase):
         """Tet the returned key length matches the ``length`` argument"""
 
         for i in range(10, 25, 50):
-            self.assertEqual(i, len(KeyGen().gen_secret_key(i, force=True)))
+            generator = KeyGen(length=i, force=True)
+            self.assertEqual(i, len(generator.gen_secret_key()))
 
     def test_sequential_not_equal(self) -> None:
         """Test sequential keys do not match"""
@@ -32,24 +33,24 @@ class SecurityErrorsAndWarnings(TestCase):
         """Test for a ``ValueError`` on a non-positive key length"""
 
         with self.assertRaises(ValueError):
-            KeyGen().gen_secret_key(length=0)
+            KeyGen(length=0)
 
         with self.assertRaises(ValueError):
-            KeyGen().gen_secret_key(length=-1)
+            KeyGen(length=-1)
 
     def test_warn_on_short_length(self) -> None:
         with self.assertRaises(SecurityException):
-            KeyGen().gen_secret_key(length=29)
+            KeyGen(length=29)
 
         with self.assertWarns(SecurityWarning):
-            KeyGen().gen_secret_key(length=29, force=True)
+            KeyGen(length=29, force=True)
 
     def test_warn_on_small_char_set(self) -> None:
         with self.assertRaises(SecurityException):
-            KeyGen().gen_secret_key(chars='abcd')
+            KeyGen(chars='abcd')
 
         with self.assertWarns(SecurityWarning):
-            KeyGen().gen_secret_key(chars='abcd', force=True)
+            KeyGen(chars='abcd', force=True)
 
 
 class DefaultCharacterSet(TestCase):
@@ -65,17 +66,17 @@ class DefaultCharacterSet(TestCase):
     def test_contains_ascii_lower(self) -> None:
         """Test keys pull from lowercase letters"""
 
-        self.assertSubsetChars(string.ascii_lowercase, KeyGen().default_chars)
+        self.assertSubsetChars(string.ascii_lowercase, DEFAULT_CHARS)
 
     def test_contains_ascii_upper(self) -> None:
         """Test keys pull from uppercase letters"""
 
-        self.assertSubsetChars(string.ascii_uppercase, KeyGen().default_chars)
+        self.assertSubsetChars(string.ascii_uppercase, DEFAULT_CHARS)
 
     def test_contains_punctuation(self) -> None:
         """Test keys pull from punctuation"""
 
-        self.assertSubsetChars(string.punctuation, KeyGen().default_chars)
+        self.assertSubsetChars(string.punctuation, DEFAULT_CHARS)
 
 
 class FromPlainText(TestCase):

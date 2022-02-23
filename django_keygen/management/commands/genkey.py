@@ -2,10 +2,10 @@ from argparse import ArgumentParser
 
 from django.core.management.base import BaseCommand
 
-from django_keygen import KeyGen
+from django_keygen import KeyGen, DEFAULT_CHARS
 
 
-class Command(BaseCommand, KeyGen):
+class Command(BaseCommand):
     """Secret key generator"""
 
     help = KeyGen.__doc__
@@ -24,7 +24,7 @@ class Command(BaseCommand, KeyGen):
             help='Length of the key to generate')
 
         parser.add_argument(
-            'chars', type=str, nargs='?', default=self.default_chars,
+            'chars', type=str, nargs='?', default=DEFAULT_CHARS,
             help='Characters to include in the secret key')
 
         parser.add_argument(
@@ -34,4 +34,5 @@ class Command(BaseCommand, KeyGen):
     def handle(self, *args, **options) -> str:
         """Handle a command line call for the parent class"""
 
-        return self.gen_secret_key(options['length'], options['chars'], options['force'])
+        generator = KeyGen(**options)
+        return generator.gen_secret_key()

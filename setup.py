@@ -8,6 +8,7 @@ def load_requirements():
     with open('requirements.txt') as f:
         return f.read().splitlines()
 
+
 def load_long_description():
     with open('README.md') as f:
         return f.read()

@@ -1,7 +1,7 @@
 from argparse import ArgumentParser
 from unittest import TestCase
 
-from django_keygen import KeyGen
+from django_keygen import KeyGen, DEFAULT_CHARS
 from django_keygen.management.commands.genkey import Command
 
 
@@ -22,8 +22,8 @@ class CliParsing(TestCase):
         test_parser = ArgumentParser()
         command.add_arguments(test_parser)
 
-        # Compare parser defaults against design specs
+        # Compare parser defaults against package defaults
         parsed_args = test_parser.parse_args([])
         self.assertEqual(50, parsed_args.length)
-        self.assertEqual(command.default_chars, parsed_args.chars)
+        self.assertEqual(DEFAULT_CHARS, parsed_args.chars)
         self.assertEqual(False, parsed_args.force)

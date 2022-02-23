@@ -35,7 +35,7 @@ Key generation is available using the ``KeyGen`` class:
 .. doctest:: python
 
    >>> from django_keygen import KeyGen
-   >>> key_generator = KeyGen()
+   >>> key_generator = KeyGen(length=55, chars=ascii_lowercase)
    >>> secret_key = key_generator.gen_secret_key()
 
 By default, keys are generated using the full range of ascii charaters and
@@ -44,7 +44,18 @@ are 50 characters long. This can be overwritted using key word arguments:
 .. doctest:: python
 
    >>> from string import ascii_lowercase
-   >>> secret_key = key_generator.gen_secret_key(length=55, chars=ascii_lowercase)
+   >>> secret_key = key_generator.gen_secret_key()
+
+To use the package in your django application, you will want to persist your
+secret key to disk. In your ``settings.py`` file, add the code snippet below.
+The ``secret_key.txt`` file wil be created automatically if it does not already
+exist.
+
+.. doctest:: python
+
+   >>> from django_keygen import KeyGen
+   >>> key_generator = KeyGen()
+   >>> SECRET_KEY = key_generator.from_plaintext('secret_key.txt', create_if_not_exist=True)
 
 Command Line Usage
 ------------------
@@ -96,26 +107,13 @@ from django_keygen.exceptions import SecurityWarning, SecurityException
 __version__ = '1.0.1'
 __author__ = 'Daniel Perrefort'
 
+DEFAULT_CHARS = string.ascii_letters + string.digits + string.punctuation
+
 
 class KeyGen:
     """Generates and prints a new secret key"""
 
-    @property
-    def default_chars(self) -> str:
-        """Default character set used to generate secret keys"""
-
-        return string.ascii_letters + string.digits + string.punctuation
-
-    def gen_secret_key(self, length: int = 50, chars: str = None, force: bool = False) -> str:
-        """Generate a secret key for Django
-
-        Args:
-            length: The length of the key
-            chars: Optionally use only the given characters
-            force: Issue warnings instead of exceptions for unsafe security options
-        """
-
-        chars = chars or self.default_chars
+    def __init__(self, length: int = 50, chars: str = DEFAULT_CHARS, force: bool = False) -> None:
         if length <= 0:
             raise ValueError('Key length must be greater than zero.')
 
@@ -132,7 +130,13 @@ class KeyGen:
         elif msg:
             raise SecurityException(msg)
 
-        return get_random_string(length, chars)
+        self.length = length
+        self.chars = chars
+
+    def gen_secret_key(self) -> str:
+        """Generate a secret key for Django"""
+
+        return get_random_string(self.length, self.chars)
 
     def from_plaintext(self, path: Union[Path, str], create_if_not_exist: bool = False) -> str:
         """Load a secret key from a plain text file on disk
@@ -146,12 +150,20 @@ class KeyGen:
         """
 
         path = Path(path)
-        if not path.exists():
-            if not create_if_not_exist:
-                raise FileNotFoundError('The given path does not exist. Create it or set `create_if_not_exist=True`.')
+        if path.exists():
+            with path.open('r') as outfile:
+                key = outfile.readline()
 
+        elif create_if_not_exist:
+            key = self.gen_secret_key()
             with path.open('w') as outfile:
-                outfile.write(self.gen_secret_key())
+                outfile.write(key)
 
-        with path.open('r') as outfile:
-            return outfile.readline()
+        else:
+            raise FileNotFoundError('The given path does not exist. Create it or set `create_if_not_exist=True`.')
+
+        key_length = len(key)
+        if key_length != self.length:
+            warn(f'Length of security key on disk (key_length) does not match the value passed to KeyGen ({self.length})', SecurityWarning)
+
+        return key
