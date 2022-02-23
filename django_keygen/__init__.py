@@ -85,6 +85,8 @@ is issued instead:
 """
 
 import string
+from pathlib import Path
+from typing import Union
 from warnings import warn
 
 from django.utils.crypto import get_random_string
@@ -131,3 +133,22 @@ class KeyGen:
             raise SecurityException(msg)
 
         return get_random_string(length, chars)
+
+    def from_plaintext(self, path: Union[Path, str], create_if_not_exist: bool = False) -> str:
+        """Load a secret key from a plain text file on disk
+
+        Args:
+            path: The path to load the secret key from
+            create_if_not_exist: Create a secret key and write it to the given path if the path does not exist
+        """
+
+        path = Path(path)
+        if not path.exists():
+            if not create_if_not_exist:
+                raise FileNotFoundError('The given path does not exist. Create it or set `create_if_not_exist=True`.')
+
+            with path.open('w') as outfile:
+                outfile.write(self.gen_secret_key())
+
+        with path.open('r') as outfile:
+            return outfile.readline()
