@@ -64,13 +64,13 @@ The command line interface is accessible via the django management tool:
 
 .. code-block:: bash
 
-   $ python manage.py genkey
+   $ python manage.py keygen
 
 Just like the Python interface, you can specify the key length and charecter set used to generate the key:
 
 .. code-block:: bash
 
-   $ python manage.py genkey 50 some_character_set
+   $ python manage.py keygen 50 some_character_set
 
 You can also write a new secret key to disk.
 
@@ -78,7 +78,7 @@ You can also write a new secret key to disk.
 
 .. code-block:: bash
 
-   $ python manage.py genkey --file secret_key.txt
+   $ python manage.py keygen --file secret_key.txt
 
 Security Notices
 ----------------
