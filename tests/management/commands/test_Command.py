@@ -15,7 +15,7 @@ class CliDocumentation(TestCase):
 class CliParsing(TestCase):
     """Test for the parsing of command line arguments"""
 
-    def test_for_cli_arguments(self) -> None:
+    def test_for_default_cli_arguments(self) -> None:
         """Test arguments are added to the command line parser"""
 
         command = Command()
@@ -27,3 +27,4 @@ class CliParsing(TestCase):
         self.assertEqual(50, parsed_args.length)
         self.assertEqual(DEFAULT_CHARS, parsed_args.chars)
         self.assertEqual(False, parsed_args.force)
+        self.assertIsNone(parsed_args.file)
