@@ -140,6 +140,9 @@ class KeyGen:
         Args:
             path: The path to load the secret key from
             create_if_not_exist: Create a secret key and write it to the given path if the path does not exist
+
+        Returns:
+            The secret key
         """
 
         path = Path(path)

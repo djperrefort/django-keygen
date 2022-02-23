@@ -1,4 +1,5 @@
 import string
+from pathlib import Path
 from unittest import TestCase
 
 from django_keygen import KeyGen, SecurityWarning, SecurityException
@@ -75,3 +76,49 @@ class DefaultCharacterSet(TestCase):
         """Test keys pull from punctuation"""
 
         self.assertSubsetChars(string.punctuation, KeyGen().default_chars)
+
+
+class FromPlainText(TestCase):
+    """Tests for the reading/writing of secret keys from a file"""
+
+    def setUp(self) -> None:
+        """Define a test file path and ensure it does not exist"""
+
+        self.test_path = Path('test_key.txt').resolve()
+        self.tearDown()
+
+    def tearDown(self) -> None:
+        """Delete the test key file"""
+
+        try:
+            self.test_path.unlink()
+
+        except FileNotFoundError:
+            pass
+
+    def test_error_if_file_not_found(self) -> None:
+        """Check for a ``FileNotFoundError`` if the file does not exist"""
+
+        with self.assertRaises(FileNotFoundError):
+            KeyGen().from_plaintext(self.test_path)
+
+    def test_file_is_created(self) -> None:
+        """Tet the file is created when ``create_if_not_exist=True``"""
+
+        returned_key = KeyGen().from_plaintext(self.test_path, create_if_not_exist=True)
+        self.assertTrue(self.test_path.exists())
+        with self.test_path.open('r') as infile:
+            key_on_disk = infile.readline()
+
+        self.assertEqual(returned_key, key_on_disk, 'Returned key does not match key on disk')
+
+    def test_returned_key_has_no_newline(self):
+        """Test the key returned from file has no newline"""
+
+        # Run test once when the file does not exist
+        returned_key = KeyGen().from_plaintext(self.test_path, create_if_not_exist=True)
+        self.assertEqual(returned_key.strip(), returned_key)
+
+        # Run the test again now that the file does exist
+        returned_key = KeyGen().from_plaintext(self.test_path, create_if_not_exist=True)
+        self.assertEqual(returned_key.strip(), returned_key)
