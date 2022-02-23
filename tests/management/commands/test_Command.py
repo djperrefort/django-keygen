@@ -2,7 +2,7 @@ from argparse import ArgumentParser
 from unittest import TestCase
 
 from django_keygen import KeyGen, DEFAULT_CHARS
-from django_keygen.management.commands.genkey import Command
+from django_keygen.management.commands.keygen import Command
 
 
 class CliDocumentation(TestCase):
