@@ -35,7 +35,7 @@ Key generation is available using the ``KeyGen`` class:
 .. doctest:: python
 
    >>> from django_keygen import KeyGen
-   >>> key_generator = KeyGen(length=55, chars=ascii_lowercase)
+   >>> key_generator = KeyGen()
    >>> secret_key = key_generator.gen_secret_key()
 
 By default, keys are generated using the full range of ascii charaters and
@@ -44,6 +44,7 @@ are 50 characters long. This can be overwritted using key word arguments:
 .. doctest:: python
 
    >>> from string import ascii_lowercase
+   >>> key_generator = KeyGen(length=55, chars=ascii_lowercase)
    >>> secret_key = key_generator.gen_secret_key()
 
 To use the package in your django application, you will want to persist your
@@ -89,7 +90,7 @@ is raised when ``django-keygen`` is asked to generate an insecure key.
 
 .. doctest:: python
 
-   >>> secret_key = key_generator.gen_secret_key(length=5, chars='abc')
+   >>> key_generator = KeyGen(length=5, chars='abc')
    Traceback (most recent call last):
    ...
    django_keygen.exceptions.SecurityException: Secret key length is short. Consider increasing the length of the generated key.
@@ -100,7 +101,7 @@ is issued instead:
 
 .. doctest:: python
 
-   >>> secret_key = key_generator.gen_secret_key(length=5, chars='abc', force=True)
+   >>> key_generator = KeyGen(length=5, chars='abc', force=True)
 """
 
 import string
