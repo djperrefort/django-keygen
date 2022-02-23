@@ -1,4 +1,5 @@
 from argparse import ArgumentParser
+from pathlib import Path
 
 from django.core.management.base import BaseCommand
 
@@ -30,6 +31,11 @@ class Command(BaseCommand):
         parser.add_argument(
             'force', type=bool, nargs='?', default=False,
             help='Issue warnings instead of exceptions for unsafe security options')
+
+        parser.add_argument(
+            '--file', type=Path,
+            help='Optionally write the generated secret key to disk'
+        )
 
     def handle(self, *args, **options) -> str:
         """Handle a command line call for the parent class"""

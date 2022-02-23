@@ -72,6 +72,14 @@ Just like the Python interface, you can specify the key length and charecter set
 
    $ python manage.py genkey 50 some_character_set
 
+You can also write a new secret key to disk.
+
+.. important:: The following command will overwrite an existing key file
+
+.. code-block:: bash
+
+   $ python manage.py genkey --file secret_key.txt
+
 Security Notices
 ----------------
 
