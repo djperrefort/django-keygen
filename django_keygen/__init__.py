@@ -78,7 +78,7 @@ You can also write a new secret key to disk.
 
 .. code-block:: bash
 
-   $ python manage.py keygen --file secret_key.txt
+   $ python manage.py keygen >> secret_key.txt
 
 Security Notices
 ----------------

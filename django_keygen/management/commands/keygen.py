@@ -32,16 +32,9 @@ class Command(BaseCommand):
             'force', type=bool, nargs='?', default=False,
             help='Issue warnings instead of exceptions for unsafe security options')
 
-        parser.add_argument(
-            '--file', type=Path,
-            help='Optionally write the generated secret key to disk'
-        )
 
     def handle(self, *args, **options) -> str:
         """Handle a command line call for the parent class"""
 
         generator = KeyGen(length=options['length'], chars=options['chars'], force=options['force'])
-        if options['file']:
-            return generator.from_plaintext(options['file'], create_if_not_exist=True)
-
         return generator.gen_secret_key()

@@ -27,4 +27,3 @@ class CliParsing(TestCase):
         self.assertEqual(50, parsed_args.length)
         self.assertEqual(DEFAULT_CHARS, parsed_args.chars)
         self.assertEqual(False, parsed_args.force)
-        self.assertIsNone(parsed_args.file)
