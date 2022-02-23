@@ -32,7 +32,6 @@ class Command(BaseCommand):
             'force', type=bool, nargs='?', default=False,
             help='Issue warnings instead of exceptions for unsafe security options')
 
-
     def handle(self, *args, **options) -> str:
         """Handle a command line call for the parent class"""
 
