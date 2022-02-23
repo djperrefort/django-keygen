@@ -104,18 +104,36 @@ the <code class="docutils literal notranslate"><span class="pre">installed_apps<
 <p>By default, keys are generated using the full range of ascii charaters and
 are 50 characters long. This can be overwritted using key word arguments:</p>
 <div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">string</span> <span class="k">import</span> <span class="n">ascii_lowercase</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">secret_key</span> <span class="o">=</span> <span class="n">key_generator</span><span class="o">.</span><span class="n">gen_secret_key</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="mi">55</span><span class="p">,</span> <span class="n">chars</span><span class="o">=</span><span class="n">ascii_lowercase</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">key_generator</span> <span class="o">=</span> <span class="n">KeyGen</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="mi">55</span><span class="p">,</span> <span class="n">chars</span><span class="o">=</span><span class="n">ascii_lowercase</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">secret_key</span> <span class="o">=</span> <span class="n">key_generator</span><span class="o">.</span><span class="n">gen_secret_key</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>To use the package in your django application, you will want to persist your
+secret key to disk. In your <code class="docutils literal notranslate"><span class="pre">settings.py</span></code> file, add the code snippet below.
+The <code class="docutils literal notranslate"><span class="pre">secret_key.txt</span></code> file wil be created automatically if it does not already
+exist.</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">django_keygen</span> <span class="k">import</span> <span class="n">KeyGen</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">key_generator</span> <span class="o">=</span> <span class="n">KeyGen</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">SECRET_KEY</span> <span class="o">=</span> <span class="n">key_generator</span><span class="o">.</span><span class="n">from_plaintext</span><span class="p">(</span><span class="s1">&#39;secret_key.txt&#39;</span><span class="p">,</span> <span class="n">create_if_not_exist</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
 <section id="command-line-usage">
 <h2>Command Line Usage<a class="headerlink" href="#command-line-usage" title="Permalink to this headline"></a></h2>
 <p>The command line interface is accessible via the django management tool:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python manage.py genkey
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python manage.py keygen
 </pre></div>
 </div>
 <p>Just like the Python interface, you can specify the key length and charecter set used to generate the key:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python manage.py genkey <span class="m">50</span> some_character_set
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python manage.py keygen <span class="m">50</span> some_character_set
+</pre></div>
+</div>
+<p>You can also write a new secret key to disk.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The following command will overwrite an existing key file</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python manage.py keygen &gt;&gt; secret_key.txt
 </pre></div>
 </div>
 </section>
@@ -124,7 +142,7 @@ are 50 characters long. This can be overwritted using key word arguments:</p>
 <p>It is considered bad security practice to use short security keys generating
 using few unique characters. To safeguard against this, a <code class="docutils literal notranslate"><span class="pre">SecurityError</span></code>
 is raised when <code class="docutils literal notranslate"><span class="pre">django-keygen</span></code> is asked to generate an insecure key.</p>
-<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">secret_key</span> <span class="o">=</span> <span class="n">key_generator</span><span class="o">.</span><span class="n">gen_secret_key</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">chars</span><span class="o">=</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">key_generator</span> <span class="o">=</span> <span class="n">KeyGen</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">chars</span><span class="o">=</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
 <span class="gt">Traceback (most recent call last):</span>
 <span class="c">...</span>
 <span class="gr">django_keygen.exceptions.SecurityException</span>: <span class="n">Secret key length is short. Consider increasing the length of the generated key.</span>
@@ -133,7 +151,7 @@ is raised when <code class="docutils literal notranslate"><span class="pre">djan
 </div>
 <p>The error can be ignored by specifying <code class="docutils literal notranslate"><span class="pre">force=True</span></code>, in which case a warning
 is issued instead:</p>
-<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">secret_key</span> <span class="o">=</span> <span class="n">key_generator</span><span class="o">.</span><span class="n">gen_secret_key</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">chars</span><span class="o">=</span><span class="s1">&#39;abc&#39;</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">key_generator</span> <span class="o">=</span> <span class="n">KeyGen</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">chars</span><span class="o">=</span><span class="s1">&#39;abc&#39;</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>

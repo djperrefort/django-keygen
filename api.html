@@ -78,27 +78,29 @@
 <h2>django_keygen<a class="headerlink" href="#django-keygen" title="Permalink to this headline"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="django_keygen.KeyGen">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">django_keygen.</span></span><span class="sig-name descname"><span class="pre">KeyGen</span></span><a class="reference internal" href="_modules/django_keygen.html#KeyGen"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#django_keygen.KeyGen" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">django_keygen.</span></span><span class="sig-name descname"><span class="pre">KeyGen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chars</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!&quot;#$%&amp;\'()*+,-./:;&lt;=&gt;?&#64;[\\]^_`{|}~'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/django_keygen.html#KeyGen"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#django_keygen.KeyGen" title="Permalink to this definition"></a></dt>
 <dd><p>Generates and prints a new secret key</p>
-<dl class="py property">
-<dt class="sig sig-object py" id="django_keygen.KeyGen.default_chars">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">default_chars</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#django_keygen.KeyGen.default_chars" title="Permalink to this definition"></a></dt>
-<dd><p>Default character set used to generate secret keys</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="django_keygen.KeyGen.from_plaintext">
+<span class="sig-name descname"><span class="pre">from_plaintext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">pathlib.Path</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">create_if_not_exist</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/django_keygen.html#KeyGen.from_plaintext"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#django_keygen.KeyGen.from_plaintext" title="Permalink to this definition"></a></dt>
+<dd><p>Load a secret key from a plain text file on disk</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> – The path to load the secret key from</p></li>
+<li><p><strong>create_if_not_exist</strong> – Create a secret key and write it to the given path if the path does not exist</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The secret key</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="django_keygen.KeyGen.gen_secret_key">
-<span class="sig-name descname"><span class="pre">gen_secret_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chars</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/django_keygen.html#KeyGen.gen_secret_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#django_keygen.KeyGen.gen_secret_key" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">gen_secret_key</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/django_keygen.html#KeyGen.gen_secret_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#django_keygen.KeyGen.gen_secret_key" title="Permalink to this definition"></a></dt>
 <dd><p>Generate a secret key for Django</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>length</strong> – The length of the key</p></li>
-<li><p><strong>chars</strong> – Optionally use only the given characters</p></li>
-<li><p><strong>force</strong> – Issue warnings instead of exceptions for unsafe security options</p></li>
-</ul>
-</dd>
-</dl>
 </dd></dl>
 
 </dd></dl>
