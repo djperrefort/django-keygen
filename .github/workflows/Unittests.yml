@@ -1,4 +1,4 @@
-name: Run Tests
+name: Test Suite
 
 on:
   workflow_dispatch:
@@ -6,7 +6,7 @@ on:
 
 jobs:
   python_tests:
-    name: Execute Test Suite
+    name: Run Tests
     runs-on: ubuntu-latest
     strategy:
       matrix:
