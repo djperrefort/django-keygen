@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>django-keygen &mdash; django-keygen  documentation</title>
@@ -15,6 +15,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/clipboard.min.js"></script>
         <script src="_static/copybutton.js"></script>
@@ -69,7 +70,7 @@
            <div itemprop="articleBody">
              
   <section id="module-django_keygen">
-<span id="django-keygen"></span><h1>django-keygen<a class="headerlink" href="#module-django_keygen" title="Permalink to this headline"></a></h1>
+<span id="django-keygen"></span><h1>django-keygen<a class="headerlink" href="#module-django_keygen" title="Permalink to this heading"></a></h1>
 <p>The <code class="docutils literal notranslate"><span class="pre">django-keygen</span></code> package provides an easy and convenient way to generate
 secure secret keys for use with <code class="docutils literal notranslate"><span class="pre">django</span></code> driven web applications.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">SECRET_KEY</span></code> setting in Django is used to provide
@@ -79,7 +80,7 @@ While it is mostly used to sign session cookies, other common uses
 include generating secure URL’s, protecting form content in hidden fields,
 and restricting access to private resources.</p>
 <section id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline"></a></h2>
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading"></a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">django-keygen</span></code> package is pip installable:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ pip install django-keygen
 </pre></div>
@@ -94,7 +95,7 @@ the <code class="docutils literal notranslate"><span class="pre">installed_apps<
 </div>
 </section>
 <section id="python-usage">
-<h2>Python Usage<a class="headerlink" href="#python-usage" title="Permalink to this headline"></a></h2>
+<h2>Python Usage<a class="headerlink" href="#python-usage" title="Permalink to this heading"></a></h2>
 <p>Key generation is available using the <code class="docutils literal notranslate"><span class="pre">KeyGen</span></code> class:</p>
 <div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">django_keygen</span> <span class="k">import</span> <span class="n">KeyGen</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">key_generator</span> <span class="o">=</span> <span class="n">KeyGen</span><span class="p">()</span>
@@ -119,7 +120,7 @@ exist.</p>
 </div>
 </section>
 <section id="command-line-usage">
-<h2>Command Line Usage<a class="headerlink" href="#command-line-usage" title="Permalink to this headline"></a></h2>
+<h2>Command Line Usage<a class="headerlink" href="#command-line-usage" title="Permalink to this heading"></a></h2>
 <p>The command line interface is accessible via the django management tool:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python manage.py keygen
 </pre></div>
@@ -138,14 +139,14 @@ exist.</p>
 </div>
 </section>
 <section id="security-notices">
-<h2>Security Notices<a class="headerlink" href="#security-notices" title="Permalink to this headline"></a></h2>
+<h2>Security Notices<a class="headerlink" href="#security-notices" title="Permalink to this heading"></a></h2>
 <p>It is considered bad security practice to use short security keys generating
 using few unique characters. To safeguard against this, a <code class="docutils literal notranslate"><span class="pre">SecurityError</span></code>
 is raised when <code class="docutils literal notranslate"><span class="pre">django-keygen</span></code> is asked to generate an insecure key.</p>
 <div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">key_generator</span> <span class="o">=</span> <span class="n">KeyGen</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">chars</span><span class="o">=</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
 <span class="gt">Traceback (most recent call last):</span>
 <span class="c">...</span>
-<span class="gr">django_keygen.exceptions.SecurityException</span>: <span class="n">Secret key length is short. Consider increasing the length of the generated key.</span>
+<span class="gr">django_keygen.exceptions.SecurityException</span>: <span class="n">Secret key length is short. Consider increasing the key length.</span>
 <span class="gp">...</span>
 </pre></div>
 </div>
