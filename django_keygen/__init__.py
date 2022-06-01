@@ -93,7 +93,7 @@ is raised when ``django-keygen`` is asked to generate an insecure key.
    >>> key_generator = KeyGen(length=5, chars='abc')
    Traceback (most recent call last):
    ...
-   django_keygen.exceptions.SecurityException: Secret key length is short. Consider increasing the length of the generated key.
+   django_keygen.exceptions.SecurityException: Secret key length is short. Consider increasing the key length.
    ...
 
 The error can be ignored by specifying ``force=True``, in which case a warning
@@ -113,7 +113,7 @@ from django.utils.crypto import get_random_string
 
 from django_keygen.exceptions import SecurityWarning, SecurityException
 
-__version__ = '1.1.0'
+__version__ = '1.1.1'
 __author__ = 'Daniel Perrefort'
 
 DEFAULT_CHARS = string.ascii_letters + string.digits + string.punctuation
@@ -128,7 +128,7 @@ class KeyGen:
 
         msg = None
         if length < 30:
-            msg = 'Secret key length is short. Consider increasing the length of the generated key.'
+            msg = 'Secret key length is short. Consider increasing the key length.'
 
         elif len(set(chars)) < 20:
             msg = 'Secret key generated with few unique characters. Try increasing the character set size.'
