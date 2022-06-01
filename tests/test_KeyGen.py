@@ -9,7 +9,7 @@ class KeyGeneration(TestCase):
     """Tests for the generation of secret keys"""
 
     def test_returned_length(self) -> None:
-        """Tet the returned key length matches the ``length`` argument"""
+        """Test the returned key length matches the ``length`` argument"""
 
         for i in range(10, 25, 50):
             generator = KeyGen(length=i, force=True)
@@ -39,6 +39,8 @@ class SecurityErrorsAndWarnings(TestCase):
             KeyGen(length=-1)
 
     def test_warn_on_short_length(self) -> None:
+        """Test a warning is issued for a short key length"""
+
         with self.assertRaises(SecurityException):
             KeyGen(length=29)
 
@@ -46,6 +48,8 @@ class SecurityErrorsAndWarnings(TestCase):
             KeyGen(length=29, force=True)
 
     def test_warn_on_small_char_set(self) -> None:
+        """Test a warning is issued for a small character set"""
+
         with self.assertRaises(SecurityException):
             KeyGen(chars='abcd')
 
