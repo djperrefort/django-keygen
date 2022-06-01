@@ -6,9 +6,11 @@ from django_keygen.management.commands.keygen import Command
 
 
 class CliDocumentation(TestCase):
-    """Test the command line parser help text is set"""
+    """Tests for the command line help text"""
 
-    def runTest(self) -> None:
+    def test_help_text_is_set(self) -> None:
+        """Test the command line parser help text matches the ``KeyGen`` class documentation"""
+
         self.assertEqual(KeyGen.__doc__, Command.help)
 
 
